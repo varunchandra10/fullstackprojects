@@ -1,4 +1,6 @@
-- This repository contains all the fullstack projects which are made by me and also there will readme file with respect to the folder, all the live links are included here too to look my work
+- This repo includes all my Full stack development.
+- To go through it you can click the below demo/live links below of the respective projects.
+- `Readme.md` files are also included with in the project folders above where i have explained about that project in detailed way.
 - I basically use **MERN STACK** technologies for fullstack projects and **Python** too depending upon the project need. for deploying my full stack projects I use **NETLIFY, RENDER, VERCEL**
 - Databases: **MongoDB, PostgreSQL, Firebase**
 
