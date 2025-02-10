@@ -1,0 +1,124 @@
+[
+    {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "render_template",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "ast",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "ast",
+        "description": "ast",
+        "detail": "ast",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "traceback",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "traceback",
+        "description": "traceback",
+        "detail": "traceback",
+        "documentation": {}
+    },
+    {
+        "label": "io",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "io",
+        "description": "io",
+        "detail": "io",
+        "documentation": {}
+    },
+    {
+        "label": "contextlib",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "contextlib",
+        "description": "contextlib",
+        "detail": "contextlib",
+        "documentation": {}
+    },
+    {
+        "label": "execute_code_step_by_step",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def execute_code_step_by_step(code):\n    \"\"\"\n    Executes the provided Python code line by line and returns\n    a list of execution states, including variable states, outputs, and errors.\n    \"\"\"\n    try:\n        # Parse the code into an AST (Abstract Syntax Tree)\n        tree = ast.parse(code)\n        execution_states = []  # To store intermediate states\n        variables = {}  # To track variable states",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "index",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def index():\n    \"\"\"\n    Render the main page with the code editor.\n    \"\"\"\n    return render_template('index.html')\n@app.route('/execute', methods=['POST'])\ndef execute_code():\n    \"\"\"\n    Endpoint to execute the provided Python code step by step.\n    \"\"\"",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "execute_code",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def execute_code():\n    \"\"\"\n    Endpoint to execute the provided Python code step by step.\n    \"\"\"\n    code = request.json.get('code')\n    execution_states = execute_code_step_by_step(code)\n    return jsonify(execution_states)\n@app.route('/validate', methods=['POST'])\ndef validate_code():\n    \"\"\"",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "validate_code",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def validate_code():\n    \"\"\"\n    Endpoint to validate the syntax of the provided Python code.\n    \"\"\"\n    code = request.json.get('code')\n    try:\n        # Attempt to parse the code to check for syntax errors\n        ast.parse(code)\n        return jsonify({'valid': True})\n    except SyntaxError as e:",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "app = Flask(__name__)\n# ========================= HELPER FUNCTION =========================\ndef execute_code_step_by_step(code):\n    \"\"\"\n    Executes the provided Python code line by line and returns\n    a list of execution states, including variable states, outputs, and errors.\n    \"\"\"\n    try:\n        # Parse the code into an AST (Abstract Syntax Tree)\n        tree = ast.parse(code)",
+        "detail": "app",
+        "documentation": {}
+    }
+]

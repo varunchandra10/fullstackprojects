@@ -117,3 +117,7 @@ h1 {
 .CodeMirror .error-line {
     background-color: #ffcccc !important; /* Light red background */
 }
+
+.CodeMirror .active-line {
+    background-color: #e8f5e9 !important; /* Light green background */
+}

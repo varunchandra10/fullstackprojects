@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Tutor - Phase 1</title>
+    <title>Python Tutor - Phase 2</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <!-- CodeMirror CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.9/codemirror.min.css">
@@ -35,12 +35,30 @@
             <!-- Character/Line Counter -->
             <div id="counter">Characters: 0 | Lines: 1</div>
         </div>
-        <button id="run-button">Run Code</button>
-        <button id="clear-button">Clear</button>
-        <button id="download-button">Download Code</button>
+        <div class="controls">
+            <button id="step-over-button">Step Over</button>
+            <button id="step-back-button">Step Back</button>
+            <button id="run-button">Run Code</button>
+            <button id="clear-button">Clear</button>
+            <button id="download-button">Download Code</button>
+        </div>
         <div class="output-container">
             <h2>Output:</h2>
             <pre id="output"></pre>
+        </div>
+        <div class="variables-container">
+            <h2>Variables:</h2>
+            <table id="variables-table">
+                <thead>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Variable states will be dynamically inserted here -->
+                </tbody>
+            </table>
         </div>
     </div>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
