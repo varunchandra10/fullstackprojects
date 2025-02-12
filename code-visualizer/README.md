@@ -26,6 +26,11 @@ Code-visualizer is a web-based tool designed to help users write, execute, and d
 | **Character/Line Counter** | Track the number of characters and lines in the editor.|
 | **Improved Error Messages** | User-friendly error messages are displayed in the output area.|
 
+|         **Phase 2**     ||
+|-------------|------------|
+| **Step by Step execution** | Show variable values in a table or chart as the user steps through the code.  |
+| **Variable visualization** | how variables change during the execution of their code.|
+
 ---
 
 ## Directory Structure
@@ -40,7 +45,13 @@ python-tutor/
 ├── css/
 │ └── styles.css # Styling for the UI
 └── js/
-└── script.js # JavaScript for interactivity
+└── theme.js
+└── editor.js
+└── script.js # main javascript
+└── buttons.js
+└── execution.js
+└── fileHandling.js
+└── errorHandling.js
 
 ```
 ---

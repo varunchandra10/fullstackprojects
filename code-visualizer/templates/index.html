@@ -48,19 +48,27 @@
         </div>
         <div class="variables-container">
             <h2>Variables:</h2>
-            <table id="variables-table">
-                <thead>
-                    <tr>
-                        <th>Variable</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Variable states will be dynamically inserted here -->
-                </tbody>
-            </table>
+            <div class="variables-table-wrapper">
+                <table id="variables-table">
+                    <thead>
+                        <tr>
+                            <th>Variable</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Variable states will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="stack-frames-container">
+            <h2>Stack Frames:</h2>
+            <div id="stack-frames">
+                <!-- Stack frames will be dynamically inserted here -->
+            </div>
         </div>
     </div>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
