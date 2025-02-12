@@ -115,7 +115,3 @@ Below are links to relevant documentation for the tools and libraries used in th
 | **Improved Error Messages** | Format backend errors for better readability.. | 
 | **Step by Step execution** | Show variable values in a table or chart as the user steps through the code.  |
 | **Variable visualization** | how variables change during the execution of their code.|
-
-
-
-
