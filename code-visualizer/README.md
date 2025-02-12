@@ -40,18 +40,18 @@ python-tutor/
 │
 ├── app.py # Backend (Flask server)
 ├── templates/
-│ └── index.html # Frontend (HTML + CSS + JavaScript)
+│    └── index.html # Frontend (HTML + CSS + JavaScript)
 └── static/
 ├── css/
-│ └── styles.css # Styling for the UI
+│    └── styles.css # Styling for the UI
 └── js/
-└── theme.js
-└── editor.js
-└── script.js # main javascript
-└── buttons.js
-└── execution.js
-└── fileHandling.js
-└── errorHandling.js
+   └── theme.js
+   └── editor.js
+   └── script.js # main javascript
+   └── buttons.js
+   └── execution.js
+   └── fileHandling.js
+   └── errorHandling.js
 
 ```
 ---
@@ -113,6 +113,8 @@ Below are links to relevant documentation for the tools and libraries used in th
 | **Download Button** | Download the current code as a`.py` file. | 
 |**Character/Line Counter** | Display the number of characters and lines in the editor. | 
 | **Improved Error Messages** | Format backend errors for better readability.. | 
+| **Step by Step execution** | Show variable values in a table or chart as the user steps through the code.  |
+| **Variable visualization** | how variables change during the execution of their code.|
 
 
 
