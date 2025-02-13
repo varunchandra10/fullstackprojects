@@ -4,8 +4,9 @@ import "./buttons.js";
 import "./execution.js";
 import "./fileHandling.js";
 import "./errorHandling.js";
-
+import "./visualization.js"; // Import the visualization module
 import { codeEditor } from "./editor.js";
+import { initializeD3Visualization } from "./visualization.js";
 
 // ========================= VALIDATE CODE =========================
 export function validateCode() {
@@ -25,24 +26,20 @@ export function validateCode() {
         });
 }
 
-
 // ========================= RENDER VALUE (FOR NESTED STRUCTURES) =========================
 export function renderValue(value) {
     if (typeof value === "object" && value !== null) {
         // Handle nested structures (lists, dictionaries)
         const container = document.createElement("div");
         container.classList.add("nested-value");
-
         // Create a toggle button for collapsible content
         const toggleButton = document.createElement("button");
         toggleButton.textContent = `${Array.isArray(value) ? "List" : "Dict"} (${getObjectSize(value)})`;
         toggleButton.classList.add("toggle-button");
-
         // Create a collapsible div for the nested content
         const contentDiv = document.createElement("div");
         contentDiv.classList.add("nested-content");
         contentDiv.style.display = "none"; // Initially hidden
-
         // Populate the content div with nested values
         if (Array.isArray(value)) {
             value.forEach((item, index) => {
@@ -59,12 +56,10 @@ export function renderValue(value) {
                 contentDiv.appendChild(itemDiv);
             }
         }
-
         // Toggle visibility of the nested content
         toggleButton.addEventListener("click", () => {
             contentDiv.style.display = contentDiv.style.display === "none" ? "block" : "none";
         });
-
         container.appendChild(toggleButton);
         container.appendChild(contentDiv);
         return container;
@@ -75,9 +70,12 @@ export function renderValue(value) {
         return span;
     }
 }
-
 // Helper function to calculate the size of an object or array
 export function getObjectSize(obj) {
     return Array.isArray(obj) ? obj.length : Object.keys(obj).length;
 }
 
+// ========================= INITIALIZE APP =========================
+document.addEventListener("DOMContentLoaded", () => {
+    initializeD3Visualization(); // Initialize D3.js visualization
+});
