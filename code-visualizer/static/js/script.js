@@ -6,7 +6,7 @@ import "./fileHandling.js";
 import "./errorHandling.js";
 import "./visualization.js"; // Import the visualization module
 import { codeEditor } from "./editor.js";
-import { initializeD3Visualization } from "./visualization.js";
+import { renderCallStack } from "./visualization.js";
 
 // ========================= VALIDATE CODE =========================
 export function validateCode() {
@@ -77,5 +77,5 @@ export function getObjectSize(obj) {
 
 // ========================= INITIALIZE APP =========================
 document.addEventListener("DOMContentLoaded", () => {
-    initializeD3Visualization(); // Initialize D3.js visualization
+    renderCallStack(); // Initialize D3.js visualization
 });

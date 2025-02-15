@@ -1,6 +1,6 @@
 import { getExecutionSteps, getCurrentStepIndex } from "./execution.js";
 
-// ========================= RENDER CALL STACK =========================
+// ========================= RENDER CALL STACK WITH D3.JS =========================
 export function renderCallStack() {
     const stepIndex = getCurrentStepIndex();
     const executionSteps = getExecutionSteps();
@@ -9,57 +9,46 @@ export function renderCallStack() {
     const step = executionSteps[stepIndex];
     const callStack = step.call_stack || [];
 
-    // Select the container for the call stack visualization
-    const callStackContainer = document.getElementById("call-stack-container");
-    callStackContainer.innerHTML = ""; // Clear previous content
+    // Select the container for visualization
+    const container = d3.select("#stack-frames");
+    container.selectAll("*").remove(); // Clear previous content
 
-    // Create a title for the call stack
-    const title = document.createElement("h3");
-    title.textContent = "Call Stack";
-    callStackContainer.appendChild(title);
+    const width = 300;
+    const height = callStack.length * 80 + 20; // Adjust height dynamically
+    const svg = container.append("svg").attr("width", width).attr("height", height);
 
-    // Render each stack frame
-    if (callStack.length === 0) {
-        const emptyMessage = document.createElement("p");
-        emptyMessage.textContent = "No active function calls.";
-        callStackContainer.appendChild(emptyMessage);
-    } else {
-        const ul = document.createElement("ul");
-        callStack.forEach((frame, index) => {
-            const li = document.createElement("li");
-            li.textContent = `${frame.function} (${Object.keys(frame.locals).length} locals)`;
-            ul.appendChild(li);
+    // Draw stack frames (bottom-up)
+    callStack.forEach((frame, index) => {
+        const frameHeight = 70;
+        const y = height - (index + 1) * frameHeight;
 
-            // Add details about local variables
-            const details = document.createElement("ul");
-            for (const [key, value] of Object.entries(frame.locals)) {
-                const detailItem = document.createElement("li");
-                detailItem.textContent = `${key}: ${JSON.stringify(value)}`;
-                details.appendChild(detailItem);
-            }
-            li.appendChild(details);
-        });
-        callStackContainer.appendChild(ul);
-    }
-}
+        // Stack frame rectangle
+        svg.append("rect")
+            .attr("x", 20)
+            .attr("y", y)
+            .attr("width", 260)
+            .attr("height", frameHeight - 10)
+            .attr("fill", "#ADD8E6")
+            .attr("stroke", "black")
+            .attr("rx", 10); // Rounded corners
 
-// ========================= INITIALIZE D3.JS VISUALIZATION =========================
-export function initializeD3Visualization() {
-    const svgWidth = 400;
-    const svgHeight = 300;
-    const margin = { top: 20, right: 30, bottom: 40, left: 40 };
+        // Function name text
+        svg.append("text")
+            .attr("x", 30)
+            .attr("y", y + 20)
+            .attr("font-size", "14px")
+            .attr("font-weight", "bold")
+            .text(`${frame.function}()`);
 
-    // Create an SVG element for the visualization
-    const svg = d3.select("#call-stack-visualization")
-        .append("svg")
-        .attr("width", svgWidth)
-        .attr("height", svgHeight);
+        // Local variables
+        let varsText = Object.entries(frame.locals)
+            .map(([key, val]) => `${key}: ${JSON.stringify(val)}`)
+            .join(", ");
 
-    // Placeholder for D3.js visualization logic
-    // You can replace this with a more advanced graph or timeline visualization
-    svg.append("text")
-        .attr("x", svgWidth / 2)
-        .attr("y", svgHeight / 2)
-        .attr("text-anchor", "middle")
-        .text("Call Stack Visualization (D3.js)");
+        svg.append("text")
+            .attr("x", 30)
+            .attr("y", y + 40)
+            .attr("font-size", "12px")
+            .text(varsText || "No locals");
+    });
 }

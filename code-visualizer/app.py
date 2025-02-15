@@ -12,8 +12,15 @@ def index():
 @app.route('/execute', methods=['POST'])
 def execute_code():
     code = request.json.get('code')
+    
+    if not code:
+        return jsonify({'error': 'No code provided'}), 400
+
+    print(f"Received code:\n{repr(code)}")  # Debugging
+    
     execution_states = execute_code_step_by_step(code)
     return jsonify(execution_states)
+
 
 @app.route('/validate', methods=['POST'])
 def validate_code():

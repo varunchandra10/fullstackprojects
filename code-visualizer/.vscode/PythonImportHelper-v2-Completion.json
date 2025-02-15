@@ -36,6 +36,33 @@
         "documentation": {}
     },
     {
+        "label": "inspect",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "inspect",
+        "description": "inspect",
+        "detail": "inspect",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
         "label": "Flask",
         "importPath": "flask",
         "description": "flask",
@@ -76,11 +103,38 @@
         "documentation": {}
     },
     {
+        "label": "is_serializable",
+        "kind": 2,
+        "importPath": "server.executionLogic",
+        "description": "server.executionLogic",
+        "peekOfCode": "def is_serializable(value):\n    \"\"\"Check if a value can be JSON serialized.\"\"\"\n    try:\n        json.dumps(value)\n        return True\n    except (TypeError, OverflowError):\n        return False\ndef filter_call_stack():\n    \"\"\"Filter out internal Flask and Werkzeug frames but keep user-defined function calls.\"\"\"\n    call_stack = []",
+        "detail": "server.executionLogic",
+        "documentation": {}
+    },
+    {
+        "label": "filter_call_stack",
+        "kind": 2,
+        "importPath": "server.executionLogic",
+        "description": "server.executionLogic",
+        "peekOfCode": "def filter_call_stack():\n    \"\"\"Filter out internal Flask and Werkzeug frames but keep user-defined function calls.\"\"\"\n    call_stack = []\n    for frame_info in inspect.stack():\n        frame = frame_info.frame\n        if \"flask\" in frame_info.filename or \"werkzeug\" in frame_info.filename:\n            continue  # Ignore Flask & Werkzeug internal calls\n        frame_locals = frame.f_locals\n        serializable_frame_locals = {\n            k: v for k, v in frame_locals.items() if is_serializable(v)",
+        "detail": "server.executionLogic",
+        "documentation": {}
+    },
+    {
+        "label": "trace_calls",
+        "kind": 2,
+        "importPath": "server.executionLogic",
+        "description": "server.executionLogic",
+        "peekOfCode": "def trace_calls(frame, event, arg):\n    \"\"\"Trace function calls to capture stack frames.\"\"\"\n    if event == 'call':  # Track only function calls\n        stack_info = {\n            'function': frame.f_code.co_name,\n            'lineno': frame.f_lineno,\n            'filename': frame.f_code.co_filename,\n            'locals': {k: v for k, v in frame.f_locals.items() if is_serializable(v)}\n        }\n        print(f\"DEBUG TRACE: {stack_info}\")  # Debugging log",
+        "detail": "server.executionLogic",
+        "documentation": {}
+    },
+    {
         "label": "execute_code_step_by_step",
         "kind": 2,
         "importPath": "server.executionLogic",
         "description": "server.executionLogic",
-        "peekOfCode": "def execute_code_step_by_step(code):\n    try:\n        tree = ast.parse(code)\n        execution_states = []\n        variables = {}\n        output_buffer = io.StringIO()\n        local_vars = {}\n        for node in tree.body:\n            try:\n                block_code = ast.unparse(node)",
+        "peekOfCode": "def execute_code_step_by_step(code):\n    \"\"\"Execute Python code step by step and capture execution states.\"\"\"\n    try:\n        tree = ast.parse(code)\n        execution_states = []  # Store execution steps\n        variables = {}  # Track variable states\n        output_buffer = io.StringIO()  # Capture print outputs\n        local_vars = {}  # Local variable storage\n        sys.settrace(trace_calls)  # Enable function tracing\n        for node in tree.body:",
         "detail": "server.executionLogic",
         "documentation": {}
     },
@@ -89,7 +143,7 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def index():\n    return render_template('index.html')\n@app.route('/execute', methods=['POST'])\ndef execute_code():\n    code = request.json.get('code')\n    execution_states = execute_code_step_by_step(code)\n    return jsonify(execution_states)\n@app.route('/validate', methods=['POST'])\ndef validate_code():\n    code = request.json.get('code')",
+        "peekOfCode": "def index():\n    return render_template('index.html')\n@app.route('/execute', methods=['POST'])\ndef execute_code():\n    code = request.json.get('code')\n    if not code:\n        return jsonify({'error': 'No code provided'}), 400\n    print(f\"Received code:\\n{repr(code)}\")  # Debugging\n    execution_states = execute_code_step_by_step(code)\n    return jsonify(execution_states)",
         "detail": "app",
         "documentation": {}
     },
@@ -98,7 +152,7 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def execute_code():\n    code = request.json.get('code')\n    execution_states = execute_code_step_by_step(code)\n    return jsonify(execution_states)\n@app.route('/validate', methods=['POST'])\ndef validate_code():\n    code = request.json.get('code')\n    try:\n        # Attempt to parse the code to check for syntax errors\n        ast.parse(code)",
+        "peekOfCode": "def execute_code():\n    code = request.json.get('code')\n    if not code:\n        return jsonify({'error': 'No code provided'}), 400\n    print(f\"Received code:\\n{repr(code)}\")  # Debugging\n    execution_states = execute_code_step_by_step(code)\n    return jsonify(execution_states)\n@app.route('/validate', methods=['POST'])\ndef validate_code():\n    code = request.json.get('code')",
         "detail": "app",
         "documentation": {}
     },
@@ -116,7 +170,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "app = Flask(__name__)\n@app.route('/')\ndef index():\n    return render_template('index.html')\n@app.route('/execute', methods=['POST'])\ndef execute_code():\n    code = request.json.get('code')\n    execution_states = execute_code_step_by_step(code)\n    return jsonify(execution_states)\n@app.route('/validate', methods=['POST'])",
+        "peekOfCode": "app = Flask(__name__)\n@app.route('/')\ndef index():\n    return render_template('index.html')\n@app.route('/execute', methods=['POST'])\ndef execute_code():\n    code = request.json.get('code')\n    if not code:\n        return jsonify({'error': 'No code provided'}), 400\n    print(f\"Received code:\\n{repr(code)}\")  # Debugging",
         "detail": "app",
         "documentation": {}
     }
